@@ -8,6 +8,6 @@ import { CounterApp } from './CounterApp.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <CounterApp value={20} />
+        <FirstApp />
     </StrictMode>
 );
