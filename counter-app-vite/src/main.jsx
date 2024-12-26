@@ -4,9 +4,10 @@ import App from './HelloWorldApp.jsx';
 import {FirstApp} from './FirstApp.jsx';
 
 import './styles.css';
+import { CounterApp } from './CounterApp.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <FirstApp title = "Hola"  />
+        <CounterApp value={20} />
     </StrictMode>
 );
