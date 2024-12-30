@@ -8,6 +8,6 @@ import { CounterApp } from './CounterApp.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <FirstApp />
+        <FirstApp title='Hola, soy Gokul!' />
     </StrictMode>
 );
