@@ -68,7 +68,9 @@ export const NavbarHeroes = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    
+    navigate("/login",{
+      replace: true,
+    });
   }
 
   const menuItems = [
