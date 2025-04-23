@@ -1,54 +1,3 @@
-/*
-export const Navbar = () => {
-    return (
-        <nav className="bg-gray-800 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-      
-            <Link
-                to="/"
-                className="text-white text-lg font-bold flex items-center space-x-2 hover:text-gray-300 transition"
-            >
-                
-                <span>Asociaciones</span>
-            </Link>
-
-        
-            <div className="flex space-x-6">
-                <NavLink
-                    to="/marvel"
-                    className={({ isActive }) =>
-                        `flex items-center space-x-2 text-white hover:text-gray-300 transition ${
-                            isActive ? 'border-b-2 border-white' : ''
-                        }`
-                    }
-                >
-                    <span>Marvel</span>
-                </NavLink>
-                <NavLink
-                    to="/dc"
-                    className={({ isActive }) =>
-                        `flex items-center space-x-2 text-white hover:text-gray-300 transition ${
-                            isActive ? 'border-b-2 border-white' : ''
-                        }`
-                    }
-                >
-                    <span>DC</span>
-                </NavLink>
-            </div>
-
-      
-            <NavLink
-                to="/login"
-                className="text-white flex items-center space-x-2 hover:text-gray-300 transition"
-            >
-                
-                <span>Logout</span>
-            </NavLink>
-        </div>
-    </nav>
-    )
-}*/
-
 import {
   Navbar,
   NavbarBrand,
@@ -59,12 +8,14 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from "@heroui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../auth";
 
 export const NavbarHeroes = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {user} = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -141,7 +92,7 @@ export const NavbarHeroes = () => {
       <NavbarContent justify="end">
         <NavbarItem >
           <span className="text-primary-400 font-bold  justify-items-center m-4">
-            Jordan
+            {user?.name}
           </span>
           {/* <NavLink to="/login" className="text-white" >            
               Login
