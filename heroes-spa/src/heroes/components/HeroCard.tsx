@@ -25,7 +25,8 @@ export const HeroCard = ({
     animate="visible"
   >
     <Link to={heroRoute}>
-    <Card isPressable className="py-4 hover:bg-slate-100" key={id}>
+    <Card isPressable className="py-4 hover:bg-slate-100 hover:scale-105 transition-transform duration-300" key={id}  
+>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         <p className="text-tiny uppercase font-bold">{alter_ego}</p>
         <small className="text-default-500">{first_appearance}</small>
@@ -35,9 +36,12 @@ export const HeroCard = ({
       <CardBody className="overflow-visible py-2">
         <Image
           alt={superhero}
-          className="object-cover rounded-xl"
+          className="object-fill rounded-xl"
           src={heroImageUrl}
-          width={380}
+          width={350}
+          height={400}
+          isBlurred
+          isZoomed
         />
         <small className="text-default-500">{publisher}</small>
       </CardBody>

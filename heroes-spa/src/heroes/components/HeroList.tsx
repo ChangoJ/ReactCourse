@@ -11,7 +11,7 @@ export const HeroList = ({publisher}:any) => {
 
     return (
         
-        <div className="justify-items-center  gap-2 grid grid-cols-2 sm:grid-cols-3 mt-4">
+        <div className="justify-items-center  gap-4 grid grid-cols-1 xl:grid-cols-4  sm:grid-cols-2 md:grid-cols-3 mt-4 p-4">
           {heroes.map((heroe:any) => (
            <HeroCard  key={heroe.id} {...heroe}/>
           ))}

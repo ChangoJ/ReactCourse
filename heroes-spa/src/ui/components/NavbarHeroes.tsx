@@ -76,6 +76,7 @@ export const NavbarHeroes = () => {
   const menuItems = [
     "Marvel",
     "Dc",  
+    "Search",  
   ];
 
   return (
@@ -122,6 +123,18 @@ export const NavbarHeroes = () => {
             to="/dc"
           >
             DC
+          </NavLink>
+        </NavbarItem>
+          <NavbarItem>
+          <NavLink
+            className={({ isActive }) =>
+              `flex items-center space-x-2 text-white hover:text-gray-300 transition ${
+                isActive ? "active border-b-2 border-white" : ""
+              }`
+            }
+            to="/search"
+          >
+            Search
           </NavLink>
         </NavbarItem>
       </NavbarContent>
