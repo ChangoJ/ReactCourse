@@ -1,6 +1,6 @@
 import { types } from "../types/types";
 
-export const AuthReducer = (
+export const authReducer = (
   state: any = {},
   action: { type: any; payload: any }
 ) => {

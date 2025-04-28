@@ -11,9 +11,11 @@ export const LoginPage = () => {
 
   const HandleLogin = () => {
 
+    const lastPath = localStorage.getItem('lastPath') || "/";
+
     login('Jordan Chango');
 
-    navigate("/", {replace: true});
+    navigate(lastPath, {replace: true});
   }
 
   return (

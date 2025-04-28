@@ -15,10 +15,13 @@ import { AuthContext } from "../../auth";
 
 export const NavbarHeroes = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {user} = useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleLogout = () => {
+
+    logout();
+
     navigate("/login",{
       replace: true,
     });
@@ -32,9 +35,9 @@ export const NavbarHeroes = () => {
 
   return (
     <Navbar
-    maxWidth="full"
+      maxWidth="full"
       isBordered
-      className="bg-gray-950 "
+      className="bg-gray-950"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
@@ -91,7 +94,7 @@ export const NavbarHeroes = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem >
-          <span className="text-primary-400 font-bold  justify-items-center m-4">
+          <span className="text-primary-400 font-bold  justify-items-center pr-4">
             {user?.name}
           </span>
           {/* <NavLink to="/login" className="text-white" >            

@@ -7,10 +7,9 @@ export const HeroCard = ({
   publisher,
   alter_ego,
   first_appearance,
-  characters,
 }: any) => {
 
-    const heroImageUrl = `/assets/heroes/${id}.jpg`;
+    const heroImageUrl = `/heroes/${id}.jpg`;
     const heroRoute  = `/hero/${id}`;
    
     const cardVariants = {
