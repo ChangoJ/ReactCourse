@@ -34,9 +34,10 @@ export const AuthForm = ({ typeForm }: { typeForm?: string }) => {
             <Input
               isRequired
               classNames={{
+                
                 base: "-mb-[2px]",
                 inputWrapper:
-                  "rounded-none data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10",
+              `${typeForm === "Login" ? 'rounded-b-none' : 'rounded-none'} data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10`,
               }}
               label="Dirección de correo electrónico"
               name="email"
@@ -49,7 +50,7 @@ export const AuthForm = ({ typeForm }: { typeForm?: string }) => {
               classNames={{
                 base: "-mb-[2px]",
                 inputWrapper:
-                  "rounded-none data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10",
+                  `${typeForm === "Login" ?  'rounded-t-none' : 'rounded-none'  } data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10`,
               }}
               endContent={
                 <button type="button" onClick={toggleVisibility}>
@@ -110,7 +111,7 @@ export const AuthForm = ({ typeForm }: { typeForm?: string }) => {
             </Link>
           </Checkbox>
           <Button color="primary" type="submit">
-          Regístrarse
+          {typeForm === "Register" ? "Registrarse" : "Iniciar sesión"}
           </Button>
         </form>
 
