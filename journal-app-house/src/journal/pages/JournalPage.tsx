@@ -6,8 +6,8 @@ import { Button } from "@heroui/react";
 export const JournalPage = () => {
   return (
     <JournalLayout>
-      <NoteView />
-
+     
+     <NoteView />
       <Button
         className="fixed bottom-6 right-12 bg-red-600 text-white
         rounded-full  h-20 flex items-center 

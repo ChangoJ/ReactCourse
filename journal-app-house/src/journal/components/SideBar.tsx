@@ -22,7 +22,7 @@ export const SideBar = ({ drawerWidth, isSidebarOpen }: SideBarProps) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen bg-background shadow-lg transition-all duration-300 ${
+      className={`fixed  top-0 left-0 h-screen bg-background shadow-lg transition-all duration-300 ${
         isSidebarOpen ? `w-[${drawerWidth}px]` : "w-0"
       } overflow-hidden`}
     >
