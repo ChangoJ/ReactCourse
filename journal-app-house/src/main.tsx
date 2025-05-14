@@ -6,16 +6,22 @@ import { BrowserRouter } from "react-router-dom";
 import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider } from "./theme/context/ThemeContext.tsx";
 
+import { Provider } from "react-redux";
+import { store } from "./store";
+
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider>
-    <BrowserRouter>
-      <HeroUIProvider>
-      <main className="min-h-screen text-foreground bg-background transition-colors">
-        <JournalApp />
-      </main>
-      </HeroUIProvider>
-    </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <HeroUIProvider>
+            <main className="min-h-screen text-foreground bg-background transition-colors">
+              <JournalApp />
+            </main>
+          </HeroUIProvider>
+        </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   </StrictMode>
 );
