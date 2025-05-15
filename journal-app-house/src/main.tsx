@@ -12,8 +12,8 @@ import { store } from "./store";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
       <Provider store={store}>
+    <ThemeProvider>
         <BrowserRouter>
           <HeroUIProvider>
             <main className="min-h-screen text-foreground bg-background transition-colors">
@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
             </main>
           </HeroUIProvider>
         </BrowserRouter>
-      </Provider>
     </ThemeProvider>
+      </Provider>
   </StrictMode>
 );

@@ -1,7 +1,11 @@
+
 import { AuthForm } from "../components/AuthForm/AuthForm";
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const LoginPage = () => {
+
+  
+
   return (
     <AuthLayout
       typeForm="Login"
