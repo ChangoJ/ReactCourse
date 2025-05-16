@@ -9,11 +9,10 @@ import { ThemeProvider } from "./theme/context/ThemeContext.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-      <Provider store={store}>
-    <ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
         <BrowserRouter>
           <HeroUIProvider>
             <main className="min-h-screen text-foreground bg-background transition-colors">
@@ -21,7 +20,7 @@ createRoot(document.getElementById("root")!).render(
             </main>
           </HeroUIProvider>
         </BrowserRouter>
-    </ThemeProvider>
-      </Provider>
+      </ThemeProvider>
+    </Provider>
   </StrictMode>
 );

@@ -2,6 +2,8 @@ import { Divider } from "@heroui/react";
 import { SocialLoginButtons } from "../components/SocialLoginButtons";
 import { Link as RouterLink } from "react-router-dom";
 import { ThemeToggleButton } from "../../theme/components/ThemeToggleButton";
+import { animate } from "animejs";
+import { useEffect } from "react";
 export const AuthLayout = ({
   title,
   children,
@@ -11,17 +13,24 @@ export const AuthLayout = ({
   children: any;
   typeForm: string;
 }) => {
+  const linkTo = typeForm === "Login" ? "/auth/register" : "/auth/login";
+  const linkText = typeForm === "Login" ? "Crear cuenta" : "Iniciar sesión";
 
-    const linkTo = typeForm === "Login" ? "/auth/register" : "/auth/login";
-    const linkText = typeForm === "Login" ? "Crear cuenta" : "Iniciar sesión";
+  useEffect(() => {
+    animate(".square", {
+      scale: [0.5, 1],
+      duration: 500,
+      ease: "inOutSine",
+    });
+  }, []);
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
+    <div className=" flex min-h-screen w-full items-center justify-center">
       {/*  <LanguageSelector /> */}
-<div className="absolute top-3 right-2">
+      <div className="absolute top-3 right-2">
         <ThemeToggleButton />
       </div>
-      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large  p-6 shadow-md  dark:bg-neutral-950 ">
+      <div className="square flex w-full max-w-sm flex-col gap-4 rounded-large  p-6 shadow-md  dark:bg-neutral-950 ">
         <div className="flex flex-col items-center pb-6">
           <hr />
           <p className="text-xl font-medium ">Bienvenido</p>
@@ -39,8 +48,8 @@ export const AuthLayout = ({
         </div>
         <SocialLoginButtons typeForm={typeForm} />
         <p className="text-center text-small">
-        {typeForm === "login" ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"}{" "}
-          <RouterLink to={linkTo}  >{linkText}</RouterLink>
+          {typeForm === "login" ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"}{" "}
+          <RouterLink to={linkTo}>{linkText}</RouterLink>
         </p>
       </div>
     </div>

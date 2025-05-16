@@ -3,7 +3,7 @@ import { Input } from '@heroui/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { PasswordInputProps } from './types';
 
-export const PasswordInput = ({ label, name, register, error, className,autoComplete }: PasswordInputProps) => {
+export const PasswordInput = ({ label, name, register, error, className }: PasswordInputProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 

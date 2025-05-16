@@ -1,6 +1,6 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { NavBar, SideBar } from "../components";
-
+import { animate } from "animejs";
 
 const drawerWidth = 250;
 
@@ -15,8 +15,16 @@ export const JournalLayout = ({ children }: JournalLayoutProps) => {
     setIsSidebarOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    animate(".square", {
+      scale: [0.5, 1],
+      duration: 500,
+      ease: "inOutSine",
+    });
+  }, []);
+
   return (
-    <div className="flex min-h-screen">
+    <div className="square flex min-h-screen">
       <SideBar isSidebarOpen={isSidebarOpen} drawerWidth={drawerWidth} />
       <div
         className={`flex-1 transition-all duration-300 ${

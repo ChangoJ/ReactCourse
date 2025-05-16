@@ -1,10 +1,12 @@
 import {
+  loginWithEmailPassword,
+  LogoutFirebase,
   registerUserWithEmailPassword,
   singInWithGoogle,
 } from "../../firebase/providers";
-import { checkingCredentials, login, logout } from "./authSlice";
+import { checkingCredentials, clearErrorMessage, login, logout } from "./authSlice";
 
-export const checkingAuthentication = (email: string, password: string) => {
+export const checkingAuthentication = () => {
   return async (dispatch: any) => {
     dispatch(checkingCredentials());
   };
@@ -34,11 +36,52 @@ export const startCreatingUserWithEmailPassword = ({
 }) => {
   return async (dispatch: any) => {
     dispatch(checkingCredentials());
-    const resp = await registerUserWithEmailPassword({
-      email,
-      password,
-      displayName,
-    });
-    console.log(resp);
+    const { ok, uid, photoURL, errorMessage } =
+      await registerUserWithEmailPassword({
+        email,
+        password,
+        displayName,
+      });
+     console.log("eRROR", errorMessage, ok) 
+    if (!ok) return dispatch(logout({ errorMessage }));
+
+    dispatch(login({ uid, displayName, email, photoURL }));
   };
 };
+
+
+export const startLoginWithEmailPassword = ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+return async (dispatch: any) => {
+    dispatch(checkingCredentials());
+    const { ok, uid, displayName,photoURL, errorMessage } =
+      await loginWithEmailPassword({
+        emailP: email,
+        password,
+      });
+     console.log("eRROR", errorMessage, ok) 
+    if (!ok) return dispatch(logout({ errorMessage }));
+
+    dispatch(login({ uid, displayName, email, photoURL }));
+  };
+}
+
+
+export const clearErrors = () => {
+return async (dispatch: any) => {
+    dispatch(clearErrorMessage());
+    
+  };
+}
+
+export const startLogout = () =>{
+  return async (dispatch: any) =>{
+    await LogoutFirebase()
+    dispatch(logout(null))
+  }
+}

@@ -1,9 +1,10 @@
-import { Navbar, NavbarBrand, NavbarContent, Button } from "@heroui/react";
+import { Navbar, NavbarBrand, NavbarContent, Button, useSelect } from "@heroui/react";
 import { Button as HeroButton } from "@heroui/react";
 
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
 import { ThemeToggleButton } from "../../theme/components/ThemeToggleButton";
+import { useDispatch, useSelector } from "react-redux";
+import { startLogout } from "../../store/auth";
 
 interface NavBarProps {
   isSidebarOpen: boolean;
@@ -11,6 +12,15 @@ interface NavBarProps {
 }
 
 export const NavBar = ({ isSidebarOpen, toggleSidebar }: NavBarProps) => {
+
+  const dispatch = useDispatch<any>();
+
+  const {displayName} = useSelector((state:any) => state.auth)
+
+  const onLogout = () => {
+    dispatch(startLogout())
+  }
+
   return (
     <Navbar maxWidth="full" className="shadow-md">
       <div className="absolute top-3 right-2">
@@ -36,14 +46,12 @@ export const NavBar = ({ isSidebarOpen, toggleSidebar }: NavBarProps) => {
               />
             )}
           </HeroButton>
-          <p className="font-bold text-inherit">Journal</p>
+          <p className="font-bold text-inherit">{displayName}</p>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end" className="mr-10">
-        <Link to="/auth/login">Login</Link>
-        <Button as={Link} color="primary" to="/auth/register" variant="flat">
-          Registrarse
-        </Button>
+        <Button className=" bg-inherit" onPress={onLogout} ><Icon icon="line-md:logout" width="30" height="30" /></Button>
+      
       </NavbarContent>
     </Navbar>
   );

@@ -1,22 +1,29 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox, Input } from "@heroui/react";
+import { Button, Checkbox, Input, useDisclosure } from "@heroui/react";
 import { Link } from "react-router-dom";
 import { PasswordInput } from "./PasswordInput";
 
 import { AuthFormProps, FormData } from "./types";
 import { loginSchema, registerSchema } from "./schemas";
 import { useDispatch, useSelector } from "react-redux";
-import { checkingAuthentication } from "../../../store/auth";
-import { useMemo } from "react";
+import {
+  clearErrors,
+  startCreatingUserWithEmailPassword,
+  startLoginWithEmailPassword,
+} from "../../../store/auth";
+import { AuthModal } from "./AuthModal";
+import { useEffect, useMemo } from "react";
 
-export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
+export const AuthForm = ({ typeForm }: AuthFormProps) => {
   const schema = typeForm === "Register" ? registerSchema : loginSchema;
 
   const dispatch = useDispatch<any>();
 
-  const { status } = useSelector((state: any) => state.auth);
+  const { status, errorMessage } = useSelector((state: any) => state.auth);
   const isAuthenticating = useMemo(() => status === "checking", [status]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     register,
@@ -30,11 +37,36 @@ export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
         : { email: "", password: "" },
   });
 
-  const onFormSubmit: SubmitHandler<FormData> = (data) => {
-    dispatch(checkingAuthentication(data.email, data.password));
-    //onSubmit(data);
+  const onFormSubmit: SubmitHandler<FormData> = async (data) => {
+    if (data && typeForm === "Register") {
+      await dispatch(
+        startCreatingUserWithEmailPassword({
+          email: data.email,
+          password: data.password,
+          displayName: data.username || "username",
+        })
+      );
+    } else if (data && typeForm === "Login") {
+      await dispatch(
+        startLoginWithEmailPassword({
+          email: data.email,
+          password: data.password,
+        })
+      );
+    }
 
     console.log("Formulario enviado:", data);
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      onOpen();
+    }
+  }, [errorMessage]);
+
+  const handleClose = () => {
+    onClose();
+    dispatch(clearErrors()); // acción que limpia errorMessage en el store
   };
 
   return (
@@ -70,7 +102,7 @@ export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
           placeholder="Ingresa tu correo electrónico"
           type="email"
           variant="bordered"
-          autoComplete={typeForm === "Register" ? "email" : "username"}
+          autoComplete="email"
           {...register("email")}
           errorMessage={errors.email?.message}
           isInvalid={!!errors.email}
@@ -83,9 +115,7 @@ export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
           className={`${
             typeForm === "Login" ? "rounded-t-none" : "rounded-none"
           } data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10`}
-          autoComplete={
-            typeForm === "Register" ? "new-password" : "current-password"
-          }
+          autoComplete={typeForm === "Register" ? "new-password" : "current-password"}
         />
         {typeForm === "Register" && (
           <PasswordInput
@@ -94,7 +124,7 @@ export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
             register={register}
             error={errors.confirmPassword?.message}
             className="rounded-t-none data-[hover=true]:z-10 group-data-[focus-visible=true]:z-10"
-            autoComplete="new-password"
+           autoComplete="new-password"
           />
         )}
       </div>
@@ -108,6 +138,7 @@ export const AuthForm = ({ typeForm, onSubmit }: AuthFormProps) => {
           Política de privacidad
         </Link>
       </Checkbox>
+      <AuthModal isOpen={isOpen} onClose={handleClose} message={errorMessage} />
       <Button
         disabled={isAuthenticating}
         color="primary"
