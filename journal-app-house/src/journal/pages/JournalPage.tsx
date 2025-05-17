@@ -14,9 +14,11 @@ const handleNewNote = () => {
 }
 
   return (
+      <>
     <JournalLayout>
      
      <NoteView />
+    </JournalLayout>
       <Button
       onPress={handleNewNote}
         className="fixed bottom-6 right-12 bg-red-600 text-white
@@ -25,6 +27,6 @@ const handleNewNote = () => {
       >
         <Icon icon="line-md:plus" width="50" height="50" />
       </Button>
-    </JournalLayout>
+  </>
   );
 };

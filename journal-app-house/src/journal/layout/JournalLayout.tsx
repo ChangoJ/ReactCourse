@@ -24,7 +24,11 @@ export const JournalLayout = ({ children }: JournalLayoutProps) => {
   }, []);
 
   return (
+
+    
     <div className="square flex min-h-screen">
+
+      
       <SideBar isSidebarOpen={isSidebarOpen} drawerWidth={drawerWidth} />
       <div
         className={`flex-1 transition-all duration-300 ${
@@ -36,6 +40,7 @@ export const JournalLayout = ({ children }: JournalLayoutProps) => {
           isSidebarOpen ? `ml-44` : "ml-9"
         }`}>{children}</div>
       </div>
+      
     </div>
   );
 };
