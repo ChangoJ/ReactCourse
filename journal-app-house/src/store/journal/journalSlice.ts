@@ -1,42 +1,64 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    isSaving: true,
-    messageSaved: '',
-    notes:[],
-    active: null
-    /*active: {
+interface Note {
+  id: string;
+  title: string;
+  body: string;
+  date: number;
+  imageUrls: string[];
+}
+
+interface JournalState {
+  isSaving: boolean;
+  messageSaved: string;
+  notes: Note[];
+  active: Note | null;
+}
+
+const initialState: JournalState = {
+  isSaving: false,
+  messageSaved: "",
+  notes: [],
+  active: null,
+  /*active: {
         id: 'ABC123',
         title: '',
         body: '',
         date: 1234567,
         imageUrls: [],
     }*/
-}
+};
 
 export const journalSlice = createSlice({
-  name: 'journal',
+  name: "journal",
   initialState,
   reducers: {
-    addNewEmptyNote: (state, action) =>{
-
+    savingNewNote: (state) => {
+      state.isSaving = true;
     },
-    setActiveNote: (state, action) =>{
-
+    addNewEmptyNote: (state, action) => {
+      state.notes.push(action.payload);
+      state.isSaving = false;
     },
-    setNotes: (state, action) =>{
-
+    setActiveNote: (state, action) => {
+      state.active = action.payload;
     },
-    setSaving: (state) =>{
-
+    setNotes: (state, action) => {
+      console.log(action.payload)
+      state.notes = action.payload
     },
-    updateNote: (state, action) =>{
-
-    },
-    deleteNoteById: (state, action) =>{
-
-    }
-  }
+    setSaving: (state) => {},
+    updateNote: (state, action) => {},
+    deleteNoteById: (state, action) => {},
+  },
 });
 
-export const { addNewEmptyNote, setActiveNote, setNotes, setSaving, updateNote, deleteNoteById} = journalSlice.actions
+export const {
+  savingNewNote,
+  addNewEmptyNote,
+  setActiveNote,
+  setNotes,
+  setSaving,
+  updateNote,
+  deleteNoteById,
+} = journalSlice.actions;
