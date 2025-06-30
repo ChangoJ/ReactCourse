@@ -5,6 +5,7 @@ import {
   savingNewNote,
   setActiveNote,
   setNotes,
+  setSaving,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers";
 
@@ -57,20 +58,23 @@ export const startLoadingNotes = () => {
  export const startSaveNote = () => {
     return async (dispatch: any, getState: any) => {
 
+      dispatch(setSaving());
+
       const { uid } = getState().auth;
       if(!uid) throw new Error("El UID del usuario no existe");
 
-      const{ active } = getState().journal;
+      const{ active:note } = getState().journal;
 
-      const noteToFireStore = { ...active };
+      const noteToFireStore = { ...note };
 
       delete noteToFireStore.id;
 
 
       console.log(noteToFireStore)
 
-      //const docRef = doc(FirebaseDB, `${uid}/journal/notes/${active?.id}`)
-
+      const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note?.id}`)
+      await setDoc(docRef, noteToFireStore, { merge: true });
+     
 
     };
   };

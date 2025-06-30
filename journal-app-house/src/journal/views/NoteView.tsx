@@ -18,7 +18,6 @@ export const NoteView = () => {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<JournalFormData>({
     resolver: zodResolver(journalSchema),
@@ -32,23 +31,12 @@ export const NoteView = () => {
   const formValues = watch();
 
   const onFormSubmit: SubmitHandler<JournalFormData> = async (data) => {
-    await dispatch(startSaveNote());
-    /*   startLoginWithEmailPassword({
-            email: data.email,
-            password: data.password,
-          })*/
     console.log("Formulario enviado:", data);
+    await dispatch(startSaveNote());
+  
   };
 
-  useEffect(() => {
-    if (active) {
-      reset({
-        title: active.title || "",
-        body: active.body || "",
-        date: active.date || "",
-      });
-    }
-  }, [active, reset]);
+
 
   useEffect(() => {
     dispatch(
@@ -66,6 +54,7 @@ export const NoteView = () => {
         ...active,
         title: formValues.title,
         body: formValues.body,
+        date: new Date().getTime(),
       })
     );
   }, [formValues.title, formValues.body]);
