@@ -18,6 +18,7 @@ export const NoteView = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<JournalFormData>({
     resolver: zodResolver(journalSchema),
@@ -40,21 +41,34 @@ export const NoteView = () => {
   };
 
   useEffect(() => {
-    if (
-      formValues.title !== (active?.title || "") ||
-      formValues.body !== (active?.body || "")
-      // formValues.date !== (active?.date || "")
-    ) {
-      dispatch(
-        setActiveNote({
-          ...active,
-          title: formValues.title,
-          body: formValues.body,
-          date: formValues.date,
-        })
-      );
+    if (active) {
+      reset({
+        title: active.title || "",
+        body: active.body || "",
+        date: active.date || "",
+      });
     }
-  }, [formValues, active, dispatch]);
+  }, [active, reset]);
+
+  useEffect(() => {
+    dispatch(
+      setActiveNote({
+        ...active,
+        title: formValues.title,
+        body: formValues.body,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      setActiveNote({
+        ...active,
+        title: formValues.title,
+        body: formValues.body,
+      })
+    );
+  }, [formValues.title, formValues.body]);
 
   const dateString = useMemo(() => {
     const date = new Date(active?.date || Date.now());

@@ -7,10 +7,10 @@ interface SideBarProps {
 }
 
 export const SideBar = ({ drawerWidth, isSidebarOpen }: SideBarProps) => {
-  const { displayName } = useSelector((state: any) => state.auth);
+  //const { displayName } = useSelector((state: any) => state.auth);
   const { notes } = useSelector((state: any) => state.journal);
 
-  const menuItems = [
+  /* const menuItems = [
     { name: "Profile", path: "/profile" },
     { name: "Dashboard", path: "/dashboard" },
     { name: "Activity", path: "/activity" },
@@ -21,7 +21,7 @@ export const SideBar = ({ drawerWidth, isSidebarOpen }: SideBarProps) => {
     { name: "Team Settings ", path: "/team-settings" },
     { name: "Help & Feedback", path: "/help" },
     { name: "Log Out", path: "/logout" },
-  ];
+  ]; */
 
   return (
     <div

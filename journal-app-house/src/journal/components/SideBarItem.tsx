@@ -1,13 +1,13 @@
-import { Link as HeroLink, image } from "@heroui/react";
+import { Link as HeroLink } from "@heroui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setActiveNote } from "../../store/journal";
-export const SideBarItem = ({ title, body, id, date, imageUrls = [] }: any) => {
+export const SideBarItem = memo(({ title, body, id, date, imageUrls = [] }: any) => {
   const dispatch = useDispatch<any>();
 
-  const onCllickNote = () => {
+  const onClickNote = () => {
     dispatch(setActiveNote({ title, body, id, date, imageUrls }));
   };
 
@@ -25,7 +25,7 @@ export const SideBarItem = ({ title, body, id, date, imageUrls = [] }: any) => {
     <>
       <li key={`${id}-${title}`} className="mb-2 flex  flex-row items-center">
         <HeroLink
-        onPress={onCllickNote}
+        onPress={onClickNote}
           as={Link}
           to={title}
           className="p-2 rounded hover:bg-primary hover:text-white text-decoration-none flex flex-row gap-2 items-center w-full"
@@ -40,4 +40,4 @@ export const SideBarItem = ({ title, body, id, date, imageUrls = [] }: any) => {
       </li>
     </>
   );
-};
+});
