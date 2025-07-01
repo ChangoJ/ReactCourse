@@ -8,7 +8,7 @@ import {
   setSaving,
   updateNote,
 } from "./journalSlice";
-import { loadNotes } from "../../helpers";
+import { fileUpload, loadNotes } from "../../helpers";
 
 interface Note {
   id?: string;
@@ -21,8 +21,6 @@ interface Note {
 export const startNewNote = () => {
   return async (dispatch: any, getState: any) => {
     dispatch(savingNewNote());
-
-    console.log(getState());
 
     const { uid } = getState().auth;
 
@@ -49,7 +47,6 @@ export const startLoadingNotes = () => {
 
     const notes = await loadNotes(uid);
 
-    console.log(notes);
     dispatch(setNotes(notes));
   };
 };
@@ -67,10 +64,29 @@ export const startSaveNote = () => {
 
     delete noteToFireStore.id;
 
-    console.log(noteToFireStore);
-
     const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note?.id}`);
     await setDoc(docRef, noteToFireStore, { merge: true });
     dispatch(updateNote(note));
+  };
+};
+
+export const startUploadingFiles = (files = []) => {
+  return async (dispatch: any) => {
+    dispatch(setSaving());
+
+    const fileUploadPromises = [];
+
+    for (const file of files) {
+      fileUploadPromises.push(fileUpload(file));
+    }
+
+    await Promise.all(fileUploadPromises)
+      .then((fileUrls) => {
+        dispatch(setActiveNote({ imageUrls: fileUrls }));
+      })
+      .catch((error) => {
+        console.error("Error uploading files:", error);
+        throw new Error("Error uploading files");
+      });
   };
 };
