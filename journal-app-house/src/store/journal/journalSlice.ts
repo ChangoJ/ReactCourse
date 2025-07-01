@@ -63,6 +63,10 @@ export const journalSlice = createSlice({
 
       state.messageSaved = `${action.payload.title}, actualizada correctamente`;
     },
+    setPhotosToActivateNote: (state, action) => {
+   
+    },
+
     deleteNoteById: (state, action) => {},
   },
 });
