@@ -12,6 +12,7 @@ import {
 } from "../../store/journal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { ImageGallery } from "./ImageGallery";
 
 export const NoteView = () => {
   const { active, messageSaved, isSaving } = useSelector(
@@ -177,7 +178,7 @@ export const NoteView = () => {
           </Form>
         </div>
 
-        {/* <ImageGallery /> */}
+        <ImageGallery images={active?.imageUrls || []} />
       </CardBody>
     </Card>
   );
