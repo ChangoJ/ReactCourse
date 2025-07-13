@@ -7,6 +7,7 @@ import { JournalFormData, journalSchema } from "../components/JournalForm";
 import { useEffect, useMemo, useRef } from "react";
 import {
   setActiveNote,
+  startDeletingNote,
   startSaveNote,
   startUploadingFiles,
 } from "../../store/journal";
@@ -52,6 +53,10 @@ export const NoteView = () => {
     if (target.files === 0) return;
 
     dispatch(startUploadingFiles(target.files));
+  };
+
+  const onDelete = () => {
+    dispatch(startDeletingNote());
   };
 
   const dateString = useMemo(() => {
@@ -176,9 +181,23 @@ export const NoteView = () => {
               isInvalid={!!errors.body}
             />
           </Form>
+          <div className="mt-4 flex flex-row justify-end">
+            <Button
+              disabled={isSaving}
+              color="primary"
+              type="submit"
+              isLoading={isSubmitting}
+              onPress={onDelete}
+            >
+              <Icon icon="line-md:trash" width="25" height="25" />
+              <h3>Elimianr</h3>
+            </Button>
+          </div>
         </div>
 
-        <ImageGallery images={active?.imageUrls || []} />
+        <div>
+          <ImageGallery images={active?.imageUrls || []} />
+        </div>
       </CardBody>
     </Card>
   );
