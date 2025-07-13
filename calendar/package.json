@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@heroui/react": "^2.7.11",
+    "@types/react-big-calendar": "^1.16.2",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.23.3",
     "react": "^19.1.0",
+    "react-big-calendar": "^1.19.4",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"
   },

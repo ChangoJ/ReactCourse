@@ -1,7 +1,9 @@
+import { AppRouter } from "./router";
+
 export const CalendarApp = () => {
   return (
     <>
-      <h1>Calendar</h1>
+      <AppRouter />
     </>
   );
 };
