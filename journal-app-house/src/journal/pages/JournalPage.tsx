@@ -3,21 +3,47 @@ import { JournalLayout } from "../layout/JournalLayout";
 import { NoteView, NothingSelectedView } from "../views";
 import { Button } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { startNewNote } from "../../store/journal";
+import { setActiveNote, startNewNote } from "../../store/journal";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const JournalPage = () => {
   const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
+  const { noteId } = useParams<{ noteId: string }>();
 
-  const { isSaving, active } = useSelector((state: any) => state.journal);
+  const { isSaving, active, notes } = useSelector(
+    (state: any) => state.journal
+  );
 
   const handleNewNote = () => {
     dispatch(startNewNote());
   };
 
+  useEffect(() => {
+    if (noteId) {
+      const note = notes.find((n: any) => n.id === noteId);
+
+      if (note) {
+        if (!active || active.id !== noteId) {
+          // dispatch(setActiveNote(note));
+        }
+      } else {
+        navigate("/journal");
+      }
+    } else {
+      if (active) {
+        // dispatch(setActiveNote(null));
+      }
+    }
+  }, [noteId, notes, dispatch, active, navigate]);
+
+  const shouldShowNoteView = noteId && active && active.id === noteId;
+
   return (
     <>
       <JournalLayout>
-        {!!active ? <NoteView /> : <NothingSelectedView />}
+        {shouldShowNoteView ? <NoteView /> : <NothingSelectedView />}
 
         <Button
           disabled={isSaving}

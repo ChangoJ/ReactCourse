@@ -1,4 +1,3 @@
-
 export interface JournalFormProps {
   onSubmit?: (data: FormData) => void;
 }
@@ -6,5 +5,6 @@ export interface JournalFormProps {
 export interface JournalFormData {
   title: string;
   body: string;
-  date?: string,
+  date?: string;
+  imageUrls?: string[];
 }

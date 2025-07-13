@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { JournalFormData, journalSchema } from "../components/JournalForm";
 import { useEffect, useMemo, useRef } from "react";
-import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/journal";
+import {
+  setActiveNote,
+  startSaveNote,
+  startUploadingFiles,
+} from "../../store/journal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -23,6 +27,7 @@ export const NoteView = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<JournalFormData>({
     resolver: zodResolver(journalSchema),
@@ -30,6 +35,7 @@ export const NoteView = () => {
       title: active?.title || "",
       body: active?.body || "",
       date: active?.date || "",
+      imageUrls: active?.imageUrls || [],
     },
   });
 
@@ -44,9 +50,7 @@ export const NoteView = () => {
   const onFileInputChange = ({ target }: any) => {
     if (target.files === 0) return;
 
-
     dispatch(startUploadingFiles(target.files));
-
   };
 
   const dateString = useMemo(() => {
@@ -59,25 +63,32 @@ export const NoteView = () => {
   }, [active?.date]);
 
   useEffect(() => {
-    dispatch(
-      setActiveNote({
-        ...active,
-        title: formValues.title,
-        body: formValues.body,
-      })
-    );
-  }, []);
+    if (
+      active &&
+      (active.title !== formValues.title ||
+        active.body !== formValues.body ||
+        active.date !== formValues.date)
+    ) {
+      dispatch(
+        setActiveNote({
+          ...active,
+          ...formValues,
+          imageUrls: active.imageUrls || [],
+        })
+      );
+    }
+  }, [formValues, dispatch]);
 
   useEffect(() => {
-    dispatch(
-      setActiveNote({
-        ...active,
-        title: formValues.title,
-        body: formValues.body,
-        date: new Date().getTime(),
-      })
-    );
-  }, [formValues.title, formValues.body]);
+    if (active) {
+      reset({
+        title: active.title || "",
+        body: active.body || "",
+        date: active.date || "",
+        imageUrls: active.imageUrls || [],
+      });
+    }
+  }, [active?.id, reset]);
 
   useEffect(() => {
     if (messageSaved.length > 0) {
@@ -99,7 +110,7 @@ export const NoteView = () => {
               type="file"
               multiple
               ref={fileInputRef}
-              onChange={onFileInputChange}              
+              onChange={onFileInputChange}
             />
             <Button
               className="flex items-center justify-center p-2"

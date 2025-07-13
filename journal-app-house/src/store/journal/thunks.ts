@@ -5,6 +5,7 @@ import {
   savingNewNote,
   setActiveNote,
   setNotes,
+  setPhotosToActivateNote,
   setSaving,
   updateNote,
 } from "./journalSlice";
@@ -15,7 +16,7 @@ interface Note {
   title: string;
   body: string;
   date: number;
-  // imageUrls: string[];
+  imageUrls: string[];
 }
 
 export const startNewNote = () => {
@@ -28,6 +29,7 @@ export const startNewNote = () => {
       title: "",
       body: "",
       date: new Date().getTime(),
+      imageUrls: [],
     };
 
     const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`));
@@ -60,6 +62,8 @@ export const startSaveNote = () => {
 
     const { active: note } = getState().journal;
 
+    console.log(note);
+
     const noteToFireStore = { ...note };
 
     delete noteToFireStore.id;
@@ -79,14 +83,9 @@ export const startUploadingFiles = (files = []) => {
     for (const file of files) {
       fileUploadPromises.push(fileUpload(file));
     }
+    const photoUrls = await Promise.all(fileUploadPromises);
+    console.log(photoUrls);
 
-    await Promise.all(fileUploadPromises)
-      .then((fileUrls) => {
-        dispatch(setActiveNote({ imageUrls: fileUrls }));
-      })
-      .catch((error) => {
-        console.error("Error uploading files:", error);
-        throw new Error("Error uploading files");
-      });
+    dispatch(setPhotosToActivateNote(photoUrls));
   };
 };

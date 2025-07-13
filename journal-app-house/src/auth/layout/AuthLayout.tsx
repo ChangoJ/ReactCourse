@@ -16,13 +16,13 @@ export const AuthLayout = ({
   const linkTo = typeForm === "Login" ? "/auth/register" : "/auth/login";
   const linkText = typeForm === "Login" ? "Crear cuenta" : "Iniciar sesión";
 
-  useEffect(() => {
+  /*useEffect(() => {
     animate(".square", {
       scale: [0.5, 1],
       duration: 500,
       ease: "inOutSine",
     });
-  }, []);
+  }, []);*/
 
   return (
     <div className=" flex min-h-screen w-full items-center justify-center">
